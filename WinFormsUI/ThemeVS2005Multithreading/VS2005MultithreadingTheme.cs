@@ -10,29 +10,20 @@ namespace WeifenLuo.WinFormsUI.Docking
     /// </summary>
     public class VS2005MultithreadingTheme : ThemeBase
     {
-        /// <summary>
-        /// Applies the specified theme to the dock panel.
-        /// </summary>
-        /// <param name="dockPanel">The dock panel.</param>
-        public override void Apply(DockPanel dockPanel)
+        public VS2005MultithreadingTheme()
         {
-            if (dockPanel == null)
-            {
-                throw new NullReferenceException("dockPanel");
-            }
-
+            Skin = CreateVisualStudio2005();
             Measures.SplitterSize = 4;
-            dockPanel.Extender.DockPaneCaptionFactory = new VS2005MultithreadingDockPaneCaptionFactory();
-            dockPanel.Extender.AutoHideStripFactory = new VS2005MultithreadingAutoHideStripFactory();
-            dockPanel.Extender.AutoHideWindowFactory = null;
-            dockPanel.Extender.DockPaneStripFactory = new VS2005MultithreadingDockPaneStripFactory();
-            dockPanel.Extender.DockPaneSplitterControlFactory = null;
-            dockPanel.Extender.DockWindowSplitterControlFactory = null;
-            dockPanel.Extender.DockWindowFactory = null;
-            dockPanel.Extender.PaneIndicatorFactory = new VS2005MultithreadingPaneIndicatorFactory();
-            dockPanel.Extender.PanelIndicatorFactory = new VS2005MultithreadingPanelIndicatorFactory();
-            dockPanel.Extender.DockOutlineFactory = null;
-            dockPanel.Skin = CreateVisualStudio2005();
+            Extender.DockPaneCaptionFactory = new VS2005MultithreadingDockPaneCaptionFactory();
+            Extender.AutoHideStripFactory = new VS2005MultithreadingAutoHideStripFactory();
+            Extender.AutoHideWindowFactory = null;
+            Extender.DockPaneStripFactory = new VS2005MultithreadingDockPaneStripFactory();
+            Extender.DockPaneSplitterControlFactory = null;
+            Extender.WindowSplitterControlFactory = null;
+            Extender.DockWindowFactory = null;
+            Extender.PaneIndicatorFactory = new VS2005MultithreadingPaneIndicatorFactory();
+            Extender.PanelIndicatorFactory = new VS2005MultithreadingPanelIndicatorFactory();
+            Extender.DockOutlineFactory = null;
         }
 
         internal static DockPanelSkin CreateVisualStudio2005()
@@ -99,7 +90,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
         public class VS2005MultithreadingPaneIndicatorFactory : DockPanelExtender.IPaneIndicatorFactory
         {
-            public DockPanel.IPaneIndicator CreatePaneIndicator()
+            public DockPanel.IPaneIndicator CreatePaneIndicator(ThemeBase theme)
             {
                 return new VS2005MultithreadingPaneIndicator();
             }
@@ -107,7 +98,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
         public class VS2005MultithreadingPanelIndicatorFactory : DockPanelExtender.IPanelIndicatorFactory
         {
-            public DockPanel.IPanelIndicator CreatePanelIndicator(DockStyle style)
+            public DockPanel.IPanelIndicator CreatePanelIndicator(DockStyle style, ThemeBase theme)
             {
                 return new VS2005MultithreadingPanelIndicator(style);
             }

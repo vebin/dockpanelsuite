@@ -999,7 +999,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             int height = rectTabStrip.Height - DocumentButtonGapTop - DocumentButtonGapBottom;
             if (buttonHeight < height)
             {
-                buttonWidth = buttonWidth * (height / buttonHeight);
+                buttonWidth = buttonWidth * height / buttonHeight;
                 buttonHeight = height;
             }
             Size buttonSize = new Size(buttonWidth, buttonHeight);
@@ -1024,10 +1024,14 @@ namespace WeifenLuo.WinFormsUI.Docking
         private void Close_Click(object sender, EventArgs e)
         {
             DockPane.CloseActiveContent();
+            if (PatchController.EnableMemoryLeakFix == true)
+            {
+                ContentClosed();
+            }
         }
 
         /// <exclude/>
-        protected override int HitTest(Point ptMouse)
+        protected override int HitTest(Point point)
         {
             Rectangle rectTabStrip = TabsRectangle;
 
@@ -1035,7 +1039,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             {
                 Rectangle rectTab = GetTabRectangle(i);
                 rectTab.Intersect(rectTabStrip);
-                if (rectTab.Contains(ptMouse))
+                if (rectTab.Contains(point))
                     return i;
             }
             return -1;

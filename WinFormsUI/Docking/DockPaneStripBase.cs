@@ -127,23 +127,21 @@ namespace WeifenLuo.WinFormsUI.Docking
         private DockPane m_dockPane;
         protected DockPane DockPane
         {
-            get	{	return m_dockPane;	}
+            get { return m_dockPane; }
         }
 
         protected DockPane.AppearanceStyle Appearance
         {
-            get	{	return DockPane.Appearance;	}
+            get { return DockPane.Appearance; }
         }
 
-        private TabCollection m_tabs = null;
+        private TabCollection m_tabs;
+
         protected TabCollection Tabs
         {
             get
             {
-                if (m_tabs == null)
-                    m_tabs = new TabCollection(DockPane);
-
-                return m_tabs;
+                return m_tabs ?? (m_tabs = new TabCollection(DockPane));
             }
         }
 
@@ -294,6 +292,14 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
         }
 
+        protected void ContentClosed()
+        {
+            if (m_tabs.Count == 0)
+            {
+                DockPane.ClearLastActiveContent();
+            }
+        }
+
         protected abstract Rectangle GetTabBounds(Tab tab);
 
         internal static Rectangle ToScreen(Rectangle rectangle, Control parent)
@@ -312,7 +318,6 @@ namespace WeifenLuo.WinFormsUI.Docking
         public class DockPaneStripAccessibleObject : Control.ControlAccessibleObject
         {
             private DockPaneStripBase _strip;
-            private DockState _state;
 
             public DockPaneStripAccessibleObject(DockPaneStripBase strip)
                 : base(strip)
